@@ -140,12 +140,13 @@ def seconds_to_hms(seconds: int) -> str:
 
 
 def validate_data(data: dict) -> list[str]:
-    """Zwraca listę brakujących pól."""
     missing = []
     if data.get("plec") not in ("M", "K"):
         missing.append("płeć (M/K)")
     if data.get("wiek") is None:
         missing.append("wiek (lub rok urodzenia)")
+    elif not (18 <= int(data["wiek"]) <= 100):
+        missing.append("wiek w przedziale 18-100 lat")
     if data.get("tempo_5km") is None:
         missing.append("tempo na 5 km (np. 6:00 min/km)")
     return missing
